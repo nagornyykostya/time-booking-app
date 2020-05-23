@@ -1,0 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto";
+  background-color: #e7efec;
+}
+
+.loader {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  margin-left: -60px;
+  margin-top: -60px;
+  z-index: 90;
+}
+
+.date-picker {
+  cursor: pointer;
+}
+
+.inputs-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 30px;
+  min-height: 250px;
+  width: 500px;
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+
+}
+.hours-booking-block {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.hours-list {
+  list-style: none;
+  overflow-x: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  &__header {
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 30px;
+    color: #818181
+  }
+
+  &__hour-cell {
+    display: block;
+    width: 60px;
+    background-color: #f7fdfb;
+    margin-top: 15px;
+    margin-right: 15px;
+    border-radius: 5px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    cursor: pointer;
+    &_selected {
+      background-color: #303f9f;
+      color: #ffffff;
+    }
+
+    &:hover {
+      background-color: #1976d2;
+      color: #ffffff;
+    }
+    &_busy {
+      background-color: #fdfffe;
+      color: #e0e0e0;
+      border: 1px dashed red;
+      pointer-events: none;
+
+      &:hover {
+        background-color: #fdfffe;
+      }
+    }
+  }
+}
