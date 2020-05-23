@@ -15,7 +15,6 @@ Sass (Scss)
 BEM methodology
 JS ES6
 ReactJS
-React-router-dom
 Redux
 Redux-thunk
 Moment.js
