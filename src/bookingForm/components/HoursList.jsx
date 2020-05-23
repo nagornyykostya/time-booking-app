@@ -1,5 +1,6 @@
 import React from "react";
 import HourCell from "./HourCell.jsx";
+import PropTypes from "prop-types";
 
 const HoursList = ({ freeHours, setSelectedTimeSlot, selectedTimeSlot }) => {
   return (
@@ -23,3 +24,9 @@ const HoursList = ({ freeHours, setSelectedTimeSlot, selectedTimeSlot }) => {
 };
 
 export default HoursList;
+
+HoursList.propTypes = {
+  freeHours: PropTypes.array,
+  selectedTimeSlot: PropTypes.string,
+  setSelectedTimeSlot: PropTypes.func.isRequired,
+};

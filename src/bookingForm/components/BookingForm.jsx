@@ -57,16 +57,16 @@ const BookingForm = ({
 
   return (
     <form className="inputs-block">
-      {isLoading && (
-        <Loader
-          className="loader"
-          type="TailSpin"
-          color="#00BFFF"
-          height={120}
-          width={120}
-        />
-      )}
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        {isLoading && (
+          <Loader
+            className="loader"
+            type="TailSpin"
+            color="#00BFFF"
+            height={120}
+            width={120}
+          />
+        )}
         <TextField
           id="standard-basic"
           label="What would you like to do?"
@@ -120,9 +120,9 @@ export default connect(mapState, mapDisp)(BookingForm);
 
 BookingForm.propTypes = {
   freeHours: PropTypes.array,
-  isLoading: PropTypes.bool.isRequired,
-  isNewBooking: PropTypes.bool.isRequired,
-  bookedDate: PropTypes.shape(),
+  isLoading: PropTypes.bool,
+  isNewBooking: PropTypes.bool,
+  bookedDate: PropTypes.object,
   selectedTimeSlot: PropTypes.string,
   fetchDate: PropTypes.func.isRequired,
   postNewBookingDateObj: PropTypes.func.isRequired,

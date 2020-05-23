@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 var classNames = require("classnames");
 
 const HourCell = ({ hour, index, setSelectedTimeSlot, selectedTimeSlot }) => {
@@ -20,3 +21,10 @@ const HourCell = ({ hour, index, setSelectedTimeSlot, selectedTimeSlot }) => {
 };
 
 export default HourCell;
+
+HourCell.propTypes = {
+  hour: PropTypes.string,
+  index: PropTypes.number,
+  selectedTimeSlot: PropTypes.string,
+  setSelectedTimeSlot: PropTypes.func.isRequired,
+};
