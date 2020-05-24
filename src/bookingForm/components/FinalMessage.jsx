@@ -11,7 +11,7 @@ const FinalMessage = ({ selectedTimeSlot, bookedDate, resetStore }) => {
 
   return (
     <div className="final-message">
-      <h2 className="final-message__header">Thank you for your booking!</h2>
+      <h2 className="final-message__header">Thank you for booking!</h2>
       <p className="final-message__text">
         Your booking on
         <span className="final-message__date">
