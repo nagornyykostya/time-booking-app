@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import Loader from "react-loader-spinner";
+import FinalMessage from "./FinalMessage.jsx";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -12,6 +13,7 @@ import {
   isNewBookingSelector,
   bookedDateSelector,
   selectedTimeSlotSelector,
+  isFinalMessageVisibleSelector,
 } from "../dates.selectors.js";
 import { updateNewBookingObjDate } from "../dateUtils.js";
 import * as dateActions from "../dates.actions.js";
@@ -27,12 +29,26 @@ const BookingForm = ({
   selectedTimeSlot,
   setSelectedTimeSlot,
   isLoading,
+  isFinalMessageVisible,
+  resetStore,
 }) => {
   const [issueValue, setIssueValue] = useState("");
   const [dateValue, setDate] = useState(null);
+  const handleBookingCreate = useCallback(() => {
+    const newBookedObj = updateNewBookingObjDate(
+      bookedDate,
+      selectedTimeSlot,
+      issueValue
+    );
+    isNewBooking
+      ? postNewBookingDateObj(newBookedObj)
+      : updateBookingObjData(newBookedObj.id, newBookedObj);
+    setIssueValue("");
+    setDate(null);
+  }, [bookedDate, isNewBooking, selectedTimeSlot]);
 
   const handleIssueChange = (e) => {
-    setIssueValue(e.nativeEvent.target.value);
+    setIssueValue(e.target.value);
   };
 
   const handleDateChange = (newDate) => {
@@ -40,61 +56,54 @@ const BookingForm = ({
     fetchDate(newDate);
   };
 
-  const handleBookingCreate = () => {
-    const newBookedObj = updateNewBookingObjDate(
-      bookedDate,
-      selectedTimeSlot,
-      issueValue
-    );
-    if (isNewBooking) {
-      postNewBookingDateObj(newBookedObj);
-    } else {
-      updateBookingObjData(newBookedObj.id, newBookedObj);
-    }
-    setIssueValue("");
-    setDate(null);
-  };
-
   return (
     <form className="inputs-block">
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        {isLoading && (
-          <Loader
-            className="loader"
-            type="TailSpin"
-            color="#00BFFF"
-            height={120}
-            width={120}
-          />
-        )}
-        <TextField
-          id="standard-basic"
-          label="What would you like to do?"
-          value={issueValue}
-          onChange={handleIssueChange}
+      {isLoading && (
+        <Loader
+          className="loader"
+          type="TailSpin"
+          color="#00BFFF"
+          height={120}
+          width={120}
         />
-        <DatePicker
-          className="date-picker"
-          value={dateValue}
-          onChange={handleDateChange}
-          label="Select the date"
+      )}
+      {isFinalMessageVisible ? (
+        <FinalMessage
+          selectedTimeSlot={selectedTimeSlot}
+          bookedDate={bookedDate}
+          resetStore={resetStore}
         />
-        {bookedDate && (
-          <HoursList
-            freeHours={freeHours}
-            selectedTimeSlot={selectedTimeSlot}
-            setSelectedTimeSlot={setSelectedTimeSlot}
+      ) : (
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <TextField
+            id="standard-basic"
+            label="What would you like to do?"
+            value={issueValue}
+            onChange={handleIssueChange}
           />
-        )}
-        <Button
-          disabled={!selectedTimeSlot}
-          onClick={handleBookingCreate}
-          variant="contained"
-          color="primary"
-        >
-          Make a booking
-        </Button>
-      </MuiPickersUtilsProvider>
+          <DatePicker
+            className="date-picker"
+            value={dateValue}
+            onChange={handleDateChange}
+            label="Select the date"
+          />
+          {bookedDate && (
+            <HoursList
+              freeHours={freeHours}
+              selectedTimeSlot={selectedTimeSlot}
+              setSelectedTimeSlot={setSelectedTimeSlot}
+            />
+          )}
+          <Button
+            disabled={!selectedTimeSlot}
+            onClick={handleBookingCreate}
+            variant="contained"
+            color="primary"
+          >
+            Make a booking
+          </Button>
+        </MuiPickersUtilsProvider>
+      )}
     </form>
   );
 };
@@ -106,6 +115,7 @@ const mapState = (state) => {
     isNewBooking: isNewBookingSelector(state),
     bookedDate: bookedDateSelector(state),
     selectedTimeSlot: selectedTimeSlotSelector(state),
+    isFinalMessageVisible: isFinalMessageVisibleSelector(state),
   };
 };
 
@@ -114,6 +124,7 @@ const mapDisp = {
   postNewBookingDateObj: dateActions.postNewBookingDateObj,
   updateBookingObjData: dateActions.updateBookingObjData,
   setSelectedTimeSlot: dateActions.setSelectedTimeSlot,
+  resetStore: dateActions.resetStore,
 };
 
 export default connect(mapState, mapDisp)(BookingForm);
@@ -128,4 +139,6 @@ BookingForm.propTypes = {
   postNewBookingDateObj: PropTypes.func.isRequired,
   updateBookingObjData: PropTypes.func.isRequired,
   setSelectedTimeSlot: PropTypes.func.isRequired,
+  isFinalMessageVisible: PropTypes.bool,
+  resetStore: PropTypes.func.isRequired
 };

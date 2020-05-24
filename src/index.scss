@@ -6,6 +6,26 @@ body {
   font-family: "Roboto";
   background-color: #e7efec;
 }
+.final-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+
+  &__text {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  &__date {
+    font-weight: bold;
+  }
+
+  &__time {
+    font-weight: bold;
+  }
+}
 
 .loader {
   position: absolute;

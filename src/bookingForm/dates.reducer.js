@@ -1,10 +1,11 @@
-import { STORE_BOOKED_DATE, SET_LOADER, SET_IS_NEW_BOOKING, RESET_STORE, SET_SELECTED_TIME_SLOT } from './dates.actionTypes.js';
+import { STORE_BOOKED_DATE, SET_LOADER, SET_IS_NEW_BOOKING, RESET_STORE, SET_SELECTED_TIME_SLOT, SET_IS_FINAL_MESSAGE_VISIBLE } from './dates.actionTypes.js';
 
 const initialState = {
     bookedDate: null,
     isNewBooking: false,
     selectedTimeSlot: null,
-    isLoading: false
+    isLoading: false,
+    isFinalMessageVisible: false,
 }
 
 const datesReducer = (state = initialState, action) => {
@@ -30,12 +31,18 @@ const datesReducer = (state = initialState, action) => {
                 bookedDate: null,
                 isNewBooking: false,
                 selectedTimeSlot: null,
-                isLoading: false
+                isLoading: false,
+                isFinalMessageVisible: false
             }
         case SET_SELECTED_TIME_SLOT:
             return {
                 ...state,
                 selectedTimeSlot: action.payload.timeSlot
+            }
+        case SET_IS_FINAL_MESSAGE_VISIBLE:
+            return {
+                ...state,
+                isFinalMessageVisible: action.payload.isVisible
             }
         default: return state
     }

@@ -1,5 +1,9 @@
 import { createSelector } from "reselect"
 
+export const isFinalMessageVisibleSelector = (state) => {
+    return state.isFinalMessageVisible
+}
+
 export const selectedTimeSlotSelector = (state) => {
     return state.selectedTimeSlot
 }

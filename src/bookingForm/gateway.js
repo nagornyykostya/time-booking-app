@@ -5,7 +5,7 @@ export const fetchBookedDate = (searchingDate) => {
     return fetch(`${baseUrl}/?search=${searchingDate}`).then(response => {
         if (response.ok) {
             return response.json()
-        } throw new Error('Loading data failed')
+        } throw new Error('Loading vacant hours data failed')
     })
 }
 
@@ -18,7 +18,7 @@ export const postNewBooking = (newBookingObj) => {
         body: JSON.stringify(newBookingObj),
     }).then(response => {
         if (response.ok) return response.json()
-        throw new Error('Loading data failed')
+        throw new Error('Booking your time reservation failed')
     })
 }
 
@@ -31,6 +31,6 @@ export const updateBookingObj = (id, newBookingObj) => {
         body: JSON.stringify(newBookingObj),
     }).then(response => {
         if (response.ok) return response.json()
-        throw new Error('Loading data failed')
+        throw new Error('Booking your time reservation failed')
     })
 }

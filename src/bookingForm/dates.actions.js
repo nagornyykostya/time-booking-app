@@ -1,7 +1,16 @@
 import { fetchBookedDate, postNewBooking, updateBookingObj } from "./gateway.js";
 import { createNewBookingDateObj } from "./dateUtils.js";
-import {STORE_BOOKED_DATE, SET_LOADER, SET_IS_NEW_BOOKING, RESET_STORE, SET_SELECTED_TIME_SLOT} from './dates.actionTypes.js'
-var moment = require("moment");
+import {STORE_BOOKED_DATE, SET_LOADER, SET_IS_NEW_BOOKING, RESET_STORE, SET_SELECTED_TIME_SLOT, SET_IS_FINAL_MESSAGE_VISIBLE} from './dates.actionTypes.js'
+const moment = require("moment");
+
+export const setIsFinaLMessageVisible = (isVisible) => {
+    return {
+        type: SET_IS_FINAL_MESSAGE_VISIBLE,
+        payload: {
+            isVisible
+        }
+    };
+};
 
 export const setSelectedTimeSlot = (timeSlot) => {
     return {
@@ -58,6 +67,7 @@ export const fetchDate = (date) => {
                 } else {
                     dispatch(setIsNewBooking(true));
                     dispatch(storeDates(createNewBookingDateObj(formatedDate)));
+
                 }
                 dispatch(setLoader(false));
             }
@@ -70,7 +80,9 @@ export const postNewBookingDateObj = (newBookingObj) => {
         dispatch(setLoader(true))
         postNewBooking(newBookingObj)
             .then(() => {
-                dispatch(resetStore());
+                dispatch(setLoader(false))
+                dispatch(setIsFinaLMessageVisible(true))
+                // dispatch(resetStore());
             })
     };
 };
@@ -80,7 +92,9 @@ export const updateBookingObjData = (id, newBookingObj) => {
         dispatch(setLoader(true))
         updateBookingObj(id, newBookingObj)
             .then(() => {
-                dispatch(resetStore());
+                dispatch(setLoader(false))
+                dispatch(setIsFinaLMessageVisible(true))
+                // dispatch(resetStore());
             })
     };
 };
