@@ -15,9 +15,8 @@ const FinalMessage = ({ selectedTimeSlot, bookedDate, resetStore }) => {
       <p className="final-message__text">
         Your booking on
         <span className="final-message__date">
-          {" "}
-          {bookedDate.bookingDate}
-        </span>{" "}
+         {` ${bookedDate.bookingDate} `}
+        </span>
         at
         <span className="final-message__time"> {timeSlot}</span> is already
         reserved and not available for others.
